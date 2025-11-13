@@ -12,10 +12,10 @@
     },
     "autoload": {
         "files": [
-            "src/registration.php"
+            "registration.php"
         ],
         "psr-4": {
-            "Snowdog\\Hyva\\Checkout\\Santander\\": "src"
+            "Snowdog\\Hyva\\Checkout\\Santander\\": ""
         }
     }
 }

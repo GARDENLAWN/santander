@@ -11,6 +11,16 @@
                     <argument name="magewire" xsi:type="object">
                         Snowdog\Hyva\Checkout\Santander\Payment\Method\Santander
                     </argument>
+                    <argument name="metadata" xsi:type="array">
+                        <item name="icon" xsi:type="array">
+                            <item name="src" xsi:type="string">Snowdog_HyvaCheckoutPayNow::images/kup-na-eraty.png</item>
+                            <item name="attributes" xsi:type="array">
+                                <item name="width" xsi:type="number">120</item>
+                                <item name="loading" xsi:type="string">lazy</item>
+                                <item name="alt" xsi:type="string" translate="true">E-Raty</item>
+                            </item>
+                        </item>
+                    </argument>
                 </arguments>
             </block>
         </referenceBlock>

@@ -15,7 +15,8 @@
                         <item name="icon" xsi:type="array">
                             <item name="src" xsi:type="string">Snowdog_HyvaCheckoutSantander::images/kup-na-eraty.png</item>
                             <item name="attributes" xsi:type="array">
-                                <item name="width" xsi:type="number">120</item>
+                                <item name="width" xsi:type="number">200</item>
+                                <item name="height" xsi:type="string">auto</item>
                                 <item name="loading" xsi:type="string">lazy</item>
                                 <item name="alt" xsi:type="string" translate="true">E-Raty</item>
                             </item>

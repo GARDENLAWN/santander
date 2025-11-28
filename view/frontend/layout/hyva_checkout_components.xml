@@ -13,12 +13,13 @@
                     </argument>
                     <argument name="metadata" xsi:type="array">
                         <item name="icon" xsi:type="array">
-                            <item name="src" xsi:type="string">Snowdog_HyvaCheckoutSantander::images/kup-na-eraty.svg</item>
+                            <item name="src" xsi:type="string">Snowdog_HyvaCheckoutSantander::images/eraty-wniosek.svg</item>
                             <item name="attributes" xsi:type="array">
                                 <item name="width" xsi:type="number">200</item>
                                 <item name="height" xsi:type="string">revert-layer</item>
                                 <item name="loading" xsi:type="string">lazy</item>
                                 <item name="alt" xsi:type="string" translate="true">E-Raty</item>
+                                <item name="src-mobile" xsi:type="string">Snowdog_HyvaCheckoutSantander::images/kup-na-eraty.svg</item>
                             </item>
                         </item>
                     </argument>

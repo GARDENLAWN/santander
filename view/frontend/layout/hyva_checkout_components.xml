@@ -19,7 +19,6 @@
                                 <item name="height" xsi:type="string">revert-layer</item>
                                 <item name="loading" xsi:type="string">lazy</item>
                                 <item name="alt" xsi:type="string" translate="true">E-Raty</item>
-                                <item name="src-mobile" xsi:type="string">Snowdog_HyvaCheckoutSantander::images/kup-na-eraty-mobile.svg</item>
                             </item>
                         </item>
                     </argument>

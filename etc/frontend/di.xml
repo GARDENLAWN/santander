@@ -5,7 +5,7 @@
         <arguments>
             <argument name="placeOrderServiceList" xsi:type="array">
                 <item name="eraty_santander"
-                      xsi:type="object">Snowdog\Hyva\Checkout\Santander\Magewire\Payment\PlaceOrderServiceProvider
+                      xsi:type="object">Snowdog\HyvaCheckoutSantander\Magewire\Payment\PlaceOrderServiceProvider
                 </item>
             </argument>
         </arguments>

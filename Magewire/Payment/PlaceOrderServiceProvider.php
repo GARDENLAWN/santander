@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Hyva\Checkout\Santander\Magewire\Payment;
+namespace Snowdog\HyvaCheckoutSantander\Magewire\Payment;
 
 use Aurora\Santander\Model\Payment\SantanderConfigProvider;
 use Hyva\Checkout\Model\Magewire\Payment\AbstractPlaceOrderService;

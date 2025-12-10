@@ -15,7 +15,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Snowdog\\Hyva\\Checkout\\Santander\\": ""
+            "Snowdog\\HyvaCheckoutSantander\\": ""
         }
     }
 }

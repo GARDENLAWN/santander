@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Hyva\Checkout\Santander\Payment\Method;
+namespace Snowdog\HyvaCheckoutSantander\Payment\Method;
 
 use Hyva\Checkout\Model\Magewire\Component\EvaluationInterface;
 use Hyva\Checkout\Model\Magewire\Component\EvaluationResultFactory;

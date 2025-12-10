@@ -9,7 +9,7 @@
                    template="Snowdog_HyvaCheckoutSantander::component/payment/method/santander.phtml">
                 <arguments>
                     <argument name="magewire" xsi:type="object">
-                        Snowdog\Hyva\Checkout\Santander\Payment\Method\Santander
+                        Snowdog\HyvaCheckoutSantander\Payment\Method\Santander
                     </argument>
                     <argument name="metadata" xsi:type="array">
                         <item name="icon" xsi:type="array">

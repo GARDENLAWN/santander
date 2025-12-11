@@ -9,6 +9,7 @@ use Magento\Checkout\Model\Session as SessionCheckout;
 use Magewirephp\Magewire\Component;
 use Aurora\Santander\ViewModel\Rates as RatesViewModel;
 use Magento\Quote\Api\Data\CartInterface;
+use Magento\Quote\Api\CartRepositoryInterface;
 
 class Santander extends Component implements EvaluationInterface
 {
@@ -18,13 +19,16 @@ class Santander extends Component implements EvaluationInterface
 
     private SessionCheckout $sessionCheckout;
     private RatesViewModel $ratesViewModel;
+    private CartRepositoryInterface $quoteRepository;
 
     public function __construct(
         SessionCheckout $sessionCheckout,
-        RatesViewModel $ratesViewModel
+        RatesViewModel $ratesViewModel,
+        CartRepositoryInterface $quoteRepository
     ) {
         $this->sessionCheckout = $sessionCheckout;
         $this->ratesViewModel = $ratesViewModel;
+        $this->quoteRepository = $quoteRepository;
     }
 
     public function mount(): void
@@ -32,18 +36,35 @@ class Santander extends Component implements EvaluationInterface
         $quote = $this->getQuote();
         $this->installmentOptions = $this->ratesViewModel->getAvailableInstallmentOptions($quote->getAllVisibleItems());
 
-        // Ustaw domyślnie wybraną opcję, jeśli jakaś istnieje
         if (!empty($this->installmentOptions)) {
-            $this->selectedRate = $this->installmentOptions[0]['shop_number'];
-            $this->updatedSelectedRate($this->selectedRate);
+            $firstOption = reset($this->installmentOptions);
+            if ($firstOption && isset($firstOption['shop_number'])) {
+                $currentSelection = $quote->getPayment()->getAdditionalInformation('santander_shop_number');
+                $this->selectedRate = $currentSelection ?: (string)$firstOption['shop_number'];
+
+                // Zapisujemy domyślną wartość tylko jeśli nie była wcześniej ustawiona
+                if (!$currentSelection) {
+                    $this->updatedSelectedRate($this->selectedRate);
+                }
+            }
         }
     }
 
-    public function updatedSelectedRate(string $shopNumber): void
+    /**
+     * Ta metoda jest automatycznie wywoływana przez Magewire, gdy publiczna właściwość 'selectedRate' się zmienia.
+     *
+     * @param string $value Nowa wartość właściwości 'selectedRate' (czyli shop_number)
+     */
+    public function updatedSelectedRate(string $value): void
     {
-        $this->selectedRate = $shopNumber;
-        $payment = $this->getQuote()->getPayment();
-        $payment->setAdditionalInformation('santander_shop_number', $this->selectedRate);
+        $quote = $this->getQuote();
+        $payment = $quote->getPayment();
+
+        // Używamy wartości przekazanej przez Magewire i zapisujemy ją
+        $payment->setAdditionalInformation('santander_shop_number', $value);
+
+        $quote->setPayment($payment);
+        $this->quoteRepository->save($quote);
     }
 
     public function evaluateCompletion(EvaluationResultFactory $resultFactory): EvaluationResultInterface
@@ -53,7 +74,7 @@ class Santander extends Component implements EvaluationInterface
         }
 
         if (empty($this->installmentOptions)) {
-            return $resultFactory->createSuccess(); // Jeśli nie ma opcji rat, nie blokuj, metoda płatności i tak się nie pokaże
+            return $resultFactory->createSuccess();
         }
 
         if (!$this->acceptTos) {

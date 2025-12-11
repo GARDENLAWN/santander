@@ -42,7 +42,6 @@ class Santander extends Component implements EvaluationInterface
                 $currentSelection = $quote->getPayment()->getAdditionalInformation('santander_shop_number');
                 $this->selectedRate = $currentSelection ?: (string)$firstOption['shop_number'];
 
-                // Zapisujemy domyślną wartość tylko jeśli nie była wcześniej ustawiona
                 if (!$currentSelection) {
                     $this->updatedSelectedRate($this->selectedRate);
                 }
@@ -51,8 +50,6 @@ class Santander extends Component implements EvaluationInterface
     }
 
     /**
-     * Ta metoda jest automatycznie wywoływana przez Magewire, gdy publiczna właściwość 'selectedRate' się zmienia.
-     *
      * @param string $value Nowa wartość właściwości 'selectedRate' (czyli shop_number)
      */
     public function updatedSelectedRate(string $value): void
@@ -60,11 +57,13 @@ class Santander extends Component implements EvaluationInterface
         $quote = $this->getQuote();
         $payment = $quote->getPayment();
 
-        // Używamy wartości przekazanej przez Magewire i zapisujemy ją
         $payment->setAdditionalInformation('santander_shop_number', $value);
 
         $quote->setPayment($payment);
         $this->quoteRepository->save($quote);
+
+        // Emituj zdarzenie odświeżające do komponentu nadrzędnego
+        $this->dispatch('refresh')->to('checkout.payment.methods');
     }
 
     public function evaluateCompletion(EvaluationResultFactory $resultFactory): EvaluationResultInterface

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-	<module name="Snowdog_HyvaCheckoutSantander">
-		<sequence>
-			<module name="Aurora_Santander" />
-			<module name="Hyva_CompatModuleFallback"/>
-		</sequence>
-	</module>
+    <module name="Snowdog_HyvaCheckoutSantander">
+        <sequence>
+            <module name="Aurora_Santander"/>
+            <module name="Hyva_CompatModuleFallback"/>
+        </sequence>
+    </module>
 </config>
 

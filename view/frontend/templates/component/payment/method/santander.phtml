@@ -1,43 +1,52 @@
 <?php
 declare(strict_types=1);
 
-/** @var Template $block */
-/** @var Santander $magewire */
-
-/** @var Escaper $escaper */
-
-use Snowdog\Hyva\Checkout\Santander\Payment\Method\Santander;
-use Magento\Framework\Escaper;
-use Magento\Framework\View\Element\Template;
-
-$issuers = $magewire->getIssuers();
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Snowdog\HyvaCheckoutSantander\Payment\Method\Santander $magewire */
+/** @var \Magento\Framework\Escaper $escaper */
 ?>
-<div
-    class="grid grid-cols-[auto,auto]"
-    wire:payment-method="eraty_santander"
->
-    <input
-        class="cursor-pointer text-pink-700 mt-1"
-        type="checkbox"
-        checked
-        name="accept_tos"
-        id="accept_tos"
-        wire:model="acceptTos"
-    />
-    <label for="accept_tos">
-        <span>
-            <?= $escaper->escapeHtml(
-                __(
-                    'I have familiarised myself with the procedure for granting consumer credit for the purchase of goods and services'
-                )
-            ) ?>
-        </span>
-        <a
-            class="link link-secondary"
-            target="_blank"
-            href="https://www.santanderconsumer.pl/raty-jak-kupic"
-        >
-            <?= $escaper->escapeHtml(__('eRaty Santander Consumer Bank')) ?>
-        </a>
-    </label>
+<div wire:payment-method="eraty_santander">
+    <?php if (!empty($magewire->installmentOptions)): ?>
+        <div class="mb-4 space-y-2">
+            <p class="font-semibold"><?= $escaper->escapeHtml(__('Select installment option:')) ?></p>
+            <?php foreach ($magewire->installmentOptions as $option): ?>
+                <label for="rate_<?= $escaper->escapeHtmlAttr($option['shop_number']) ?>"
+                       class="flex items-center p-3 -ml-3 rounded-md cursor-pointer hover:bg-gray-100">
+                    <input
+                        class="w-5 h-5 text-pink-700"
+                        type="radio"
+                        name="santander_rate_option"
+                        id="rate_<?= $escaper->escapeHtmlAttr($option['shop_number']) ?>"
+                        value="<?= $escaper->escapeHtmlAttr($option['shop_number']) ?>"
+                        wire:model="selectedRate"
+                    />
+                    <span class="ml-3 text-sm">
+                        <?= $escaper->escapeHtml($option['label']) ?>
+                    </span>
+                </label>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="grid grid-cols-[auto,1fr] gap-x-2 items-start">
+            <input
+                class="w-5 h-5 mt-1 text-pink-700 cursor-pointer"
+                type="checkbox"
+                name="accept_tos"
+                id="accept_tos"
+                wire:model="acceptTos"
+            />
+            <label for="accept_tos" class="text-sm cursor-pointer">
+                <span>
+                    <?= $escaper->escapeHtml(__('I have familiarised myself with the procedure for granting consumer credit for the purchase of goods and services')) ?>
+                </span>
+                <a
+                    class="link link-secondary"
+                    target="_blank"
+                    href="https://www.santanderconsumer.pl/raty-jak-kupic"
+                >
+                    <?= $escaper->escapeHtml(__('eRaty Santander Consumer Bank')) ?>
+                </a>
+            </label>
+        </div>
+    <?php endif; ?>
 </div>
